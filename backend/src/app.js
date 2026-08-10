@@ -31,6 +31,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Base Route
+app.get('/', (req, res) => {
+  res.json({ status: 'Online', message: 'Aura Store Backend API v1.0 running smoothly' });
+});
+
 app.get('/api', (req, res) => {
   res.json({ status: 'Online', message: 'Aura Store API v1.0 running smoothly' });
 });
