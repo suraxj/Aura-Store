@@ -19,13 +19,22 @@ export const getProducts = async (req, res) => {
       ];
     }
 
-    // Category filter (by slug or ObjectId)
+    // Category filter (by slug or ObjectId or name)
     if (req.query.category) {
       if (req.query.category.match(/^[0-9a-fA-F]{24}$/)) {
         query.category = req.query.category;
       } else {
-        const cat = await Category.findOne({ slug: req.query.category });
-        if (cat) query.category = cat._id;
+        const cat = await Category.findOne({
+          $or: [
+            { slug: req.query.category.toLowerCase() },
+            { name: new RegExp('^' + req.query.category + '$', 'i') }
+          ]
+        });
+        if (cat) {
+          query.category = cat._id;
+        } else {
+          query.category = null;
+        }
       }
     }
 
