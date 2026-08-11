@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="auraGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5"/>
+      <stop offset="100%" stop-color="#8b5cf6"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="128" fill="url(#auraGradient)"/>
+  <!-- Central Sparkle Star -->
+  <path d="M256 96 C256 184 184 256 96 256 C184 256 256 328 256 416 C256 328 328 256 416 256 C328 256 256 184 256 96 Z" fill="#ffffff"/>
+  <!-- Accent Gold Sparkle -->
+  <path d="M374 110 C374 134 354 154 330 154 C354 154 374 174 374 198 C374 174 394 154 418 154 C394 154 374 134 374 110 Z" fill="#fbbf24"/>
+  <!-- Accent Blue Sparkle -->
+  <path d="M140 330 C140 348 125 363 107 363 C125 363 140 378 140 396 C140 378 155 363 173 363 C155 363 140 348 140 330 Z" fill="#60a5fa"/>
+</svg>
