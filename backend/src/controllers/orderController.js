@@ -22,7 +22,8 @@ export const createOrder = async (req, res) => {
 
     // Security Rule 20: Recalculate price on backend, verify stock
     for (const item of items) {
-      const product = await Product.findById(item.product);
+      const productId = item.product?._id || item.product;
+      const product = await Product.findById(productId);
       if (!product) {
         return res.status(404).json({ message: `Product ${item.name || item.product} not found` });
       }
@@ -37,7 +38,7 @@ export const createOrder = async (req, res) => {
       verifiedItems.push({
         product: product._id,
         name: product.name,
-        image: product.images[0] || '',
+        image: product.images && product.images.length > 0 ? product.images[0] : '',
         price: itemPrice,
         quantity: item.quantity
       });
