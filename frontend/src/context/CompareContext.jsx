@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState } from 'react';
+import toast from 'react-hot-toast';
 
 const CompareContext = createContext();
 
@@ -12,13 +13,32 @@ export const CompareProvider = ({ children }) => {
     setCompareList((prev) => {
       const exists = prev.some((p) => p._id === product._id);
       if (exists) {
+        toast.success(`Removed ${product.name} from Compare`);
         return prev.filter((p) => p._id !== product._id);
       }
+
       if (prev.length >= 2) {
-        // Replace second item if 2 are already selected
+        toast.success(`Comparing ${prev[0].name} with ${product.name}`);
+        setIsCompareModalOpen(true);
         return [prev[0], product];
       }
-      return [...prev, product];
+
+      if (prev.length === 1) {
+        toast.success(`Added ${product.name}! Opening Side-by-Side Comparison`);
+        setIsCompareModalOpen(true);
+        return [...prev, product];
+      }
+
+      toast.success(`Added ${product.name} to Compare! Select 1 more product`);
+      return [product];
+    });
+  };
+
+  const selectForSlot = (product, slotIndex) => {
+    setCompareList((prev) => {
+      const newList = [...prev];
+      newList[slotIndex] = product;
+      return newList;
     });
   };
 
@@ -28,6 +48,7 @@ export const CompareProvider = ({ children }) => {
 
   const clearCompare = () => {
     setCompareList([]);
+    setIsCompareModalOpen(false);
   };
 
   const isInCompare = (productId) => {
@@ -39,6 +60,7 @@ export const CompareProvider = ({ children }) => {
       value={{
         compareList,
         toggleCompare,
+        selectForSlot,
         removeFromCompare,
         clearCompare,
         isInCompare,
