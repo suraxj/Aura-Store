@@ -36,6 +36,9 @@ import ManageCategories from './pages/admin/ManageCategories';
 import ManageCoupons from './pages/admin/ManageCoupons';
 
 import CircularMenu from './components/common/CircularMenu';
+import CompareBar from './components/common/CompareBar';
+import CompareModal from './components/common/CompareModal';
+
 
 export default function App() {
   return (
@@ -84,6 +87,8 @@ export default function App() {
 
       <Footer />
       <CircularMenu />
+      <CompareBar />
+      <CompareModal />
     </div>
   );
 }

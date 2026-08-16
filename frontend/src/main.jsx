@@ -9,6 +9,7 @@ import 'animate.css';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import { WishlistProvider } from './context/WishlistContext';
+import { CompareProvider } from './context/CompareContext';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
@@ -16,7 +17,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
       <AuthProvider>
         <CartProvider>
           <WishlistProvider>
-            <Toaster
+            <CompareProvider>
+              <Toaster
               position="top-right"
               toastOptions={{
                 duration: 3000,
@@ -29,7 +31,8 @@ ReactDOM.createRoot(document.getElementById('root')).render(
                 },
               }}
             />
-            <App />
+              <App />
+            </CompareProvider>
           </WishlistProvider>
         </CartProvider>
       </AuthProvider>

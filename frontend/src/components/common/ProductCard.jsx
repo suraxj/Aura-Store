@@ -1,21 +1,43 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, ShoppingBag, Eye, Star, Check } from 'lucide-react';
+import { Heart, ShoppingBag, Eye, Star, Check, ArrowLeftRight } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import { useCompare } from '../../context/CompareContext';
 
 import LazyImage from './LazyImage';
 
 export default function ProductCard({ product, onQuickView }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
+  const { toggleCompare, isInCompare } = useCompare();
   const [added, setAdded] = useState(false);
+  const [transformStyle, setTransformStyle] = useState('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
 
   const isLiked = isInWishlist(product._id);
+  const isCompared = isInCompare(product._id);
   const discountPercent = product.discountPercentage || 
     (product.discountPrice > 0 ? Math.round(((product.price - product.discountPrice) / product.price) * 100) : 0);
 
   const displayPrice = product.discountPrice > 0 ? product.discountPrice : product.price;
+
+  const handleMouseMove = (e) => {
+    const card = e.currentTarget;
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -10;
+    const rotateY = ((x - centerX) / centerX) * 10;
+
+    setTransformStyle(`perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.03, 1.03, 1.03)`);
+  };
+
+  const handleMouseLeave = () => {
+    setTransformStyle('perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)');
+  };
 
   const handleAddToCart = (e) => {
     e.preventDefault();
@@ -28,7 +50,12 @@ export default function ProductCard({ product, onQuickView }) {
   };
 
   return (
-    <div className="ih-02__card ih-08__card group relative bg-white rounded-3xl border border-gray-100/80 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 ease-out flex flex-col overflow-hidden animate__animated animate__fadeIn">
+    <div
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      style={{ transform: transformStyle, transition: 'transform 0.15s ease-out' }}
+      className="ih-02__card ih-08__card group relative bg-white rounded-3xl border border-gray-100/80 shadow-sm hover:shadow-2xl hover:border-indigo-200 flex flex-col overflow-hidden animate__animated animate__fadeIn"
+    >
       
       {/* Product Image Container */}
       <div className="ih-08__img-frame relative aspect-square w-full bg-slate-50 overflow-hidden">
@@ -81,6 +108,16 @@ export default function ProductCard({ product, onQuickView }) {
               title="Wishlist"
             >
               <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+            </button>
+
+            <button
+              onClick={() => toggleCompare(product)}
+              className={`p-2.5 rounded-full shadow-lg transition-all active:scale-90 ${
+                isCompared ? 'bg-indigo-600 text-white shadow-indigo-500/50' : 'bg-white/95 text-slate-800 hover:bg-indigo-600 hover:text-white'
+              }`}
+              title={isCompared ? 'Remove from Compare' : 'Add to Compare'}
+            >
+              <ArrowLeftRight className="w-4 h-4" />
             </button>
           </div>
         </div>

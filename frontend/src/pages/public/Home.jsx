@@ -6,6 +6,9 @@ import QuickViewModal from '../../components/common/QuickViewModal';
 import LazyImage from '../../components/common/LazyImage';
 import ZoomGridSection from '../../components/common/ZoomGridSection';
 import HeroZoomParallaxSection from '../../components/common/HeroZoomParallaxSection';
+import SeoSection from '../../components/common/SeoSection';
+import TextMaskParallaxSection from '../../components/common/TextMaskParallaxSection';
+
 
 
 
@@ -478,6 +481,12 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* DYNAMIC TEXT MASK PARALLAX SCROLL SECTION */}
+      <TextMaskParallaxSection />
+
+      {/* SEO CONTENT & FAQ ACCORDION HUB */}
+      <SeoSection />
 
       {/* QUICK VIEW MODAL */}
       {quickViewProduct && (
