@@ -10,19 +10,13 @@ export default function HeroZoomParallaxSection() {
   const overlayRef = useRef(null);
 
   useEffect(() => {
-    let ticking = false;
+    let animId;
+    let targetProgress = 0;
+    let currentProgress = 0;
+
+    const lerp = (start, end, factor) => start + (end - start) * factor;
 
     const onScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateParallax();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
-
-    const updateParallax = () => {
       const wrapper = wrapperRef.current;
       if (!wrapper) return;
 
@@ -30,37 +24,45 @@ export default function HeroZoomParallaxSection() {
       const windowHeight = window.innerHeight;
       const totalScrollable = rect.height - windowHeight;
 
-      if (totalScrollable <= 0) return;
+      if (totalScrollable <= 0) {
+        targetProgress = 0;
+        return;
+      }
 
-      // Calculate progress from 0 (top of wrapper entering) to 1 (scrolled through wrapper)
       const scrolled = Math.max(0, -rect.top);
-      const progress = Math.min(1, scrolled / totalScrollable);
+      targetProgress = Math.min(1, Math.max(0, scrolled / totalScrollable));
+    };
 
-      // Hero background scale (1 -> 1.4)
+    const renderLoop = () => {
+      // Silky smooth lerp damping (0.12 factor)
+      currentProgress = lerp(currentProgress, targetProgress, 0.12);
+
       if (heroBgRef.current) {
-        const bgScale = 1 + progress * 0.4;
+        const bgScale = 1 + currentProgress * 0.35;
         heroBgRef.current.style.transform = `scale(${bgScale})`;
       }
 
-      // Foreground image perspective scale and z translate (1 -> 2.2, 0 -> 220px)
       if (foregroundImgRef.current) {
-        const imgScale = 1 + progress * 1.2;
-        const translateZ = progress * 220;
+        const imgScale = 1 + currentProgress * 1.1;
+        const translateZ = currentProgress * 200;
         foregroundImgRef.current.style.transform = `scale(${imgScale}) translateZ(${translateZ}px)`;
       }
 
-      // Darken overlay opacity (0.6 -> 0.9)
       if (overlayRef.current) {
-        const opacity = 0.6 + progress * 0.32;
+        const opacity = 0.5 + currentProgress * 0.35;
         overlayRef.current.style.background = `rgba(0, 0, 0, ${opacity})`;
       }
+
+      animId = requestAnimationFrame(renderLoop);
     };
 
     window.addEventListener('scroll', onScroll, { passive: true });
-    updateParallax(); // Initial positioning
+    onScroll();
+    animId = requestAnimationFrame(renderLoop);
 
     return () => {
       window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(animId);
     };
   }, []);
 
@@ -87,7 +89,7 @@ export default function HeroZoomParallaxSection() {
           />
         </div>
 
-        {/* Clean Floating Foreground Content over Background Image */}
+        {/* Clean Floating Foreground Content directly over background image */}
         <div className="hz-intro-content">
           <div className="flex flex-col items-center text-center max-w-3xl mx-auto px-4 space-y-4">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-indigo-400/50 text-indigo-300 text-xs font-extrabold tracking-widest uppercase shadow-2xl animate__animated animate__pulse animate__infinite">

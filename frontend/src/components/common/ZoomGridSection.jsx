@@ -7,19 +7,13 @@ export default function ZoomGridSection() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    let ticking = false;
+    let animId;
+    let targetProgress = 0;
+    let currentProgress = 0;
 
-    const handleScroll = () => {
-      if (!ticking) {
-        window.requestAnimationFrame(() => {
-          updateScroll();
-          ticking = false;
-        });
-        ticking = true;
-      }
-    };
+    const lerp = (start, end, factor) => start + (end - start) * factor;
 
-    const updateScroll = () => {
+    const onScroll = () => {
       const container = containerRef.current;
       if (!container) return;
 
@@ -27,33 +21,49 @@ export default function ZoomGridSection() {
       const windowHeight = window.innerHeight;
       const totalScrollable = rect.height - windowHeight;
 
-      if (totalScrollable <= 0) return;
+      if (totalScrollable <= 0) {
+        targetProgress = 0;
+        return;
+      }
 
-      // Scrolled progress from 0 (entering viewport) to 1 (leaving sticky region)
       const scrolled = Math.max(0, -rect.top);
-      const progress = Math.min(1, Math.max(0, scrolled / totalScrollable));
-
-      const items = container.querySelectorAll('.grid-item:not(.special)');
-      items.forEach((item, idx) => {
-        const factor = (idx % 4 + 1) * 0.15;
-        const translateZ = (progress - 0.5) * 1100 * factor;
-        
-        // Cards remain 100% visible throughout progress, fading out gently only above 0.88
-        let opacity = 1;
-        if (progress > 0.88) {
-          opacity = (1 - progress) / 0.12;
-        } else if (progress < 0.05) {
-          opacity = progress / 0.05;
-        }
-        
-        item.style.transform = `translateZ(${translateZ}px)`;
-        item.style.opacity = `${opacity}`;
-      });
+      targetProgress = Math.min(1, Math.max(0, scrolled / totalScrollable));
     };
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    updateScroll();
-    return () => window.removeEventListener('scroll', handleScroll);
+    const renderLoop = () => {
+      // Smooth lerp damping (0.12 factor)
+      currentProgress = lerp(currentProgress, targetProgress, 0.12);
+
+      const container = containerRef.current;
+      if (container) {
+        const items = container.querySelectorAll('.grid-item:not(.special)');
+        items.forEach((item, idx) => {
+          const factor = (idx % 4 + 1) * 0.14;
+          const translateZ = (currentProgress - 0.5) * 850 * factor;
+          
+          let opacity = 1;
+          if (currentProgress > 0.88) {
+            opacity = (1 - currentProgress) / 0.12;
+          } else if (currentProgress < 0.05) {
+            opacity = currentProgress / 0.05;
+          }
+
+          item.style.transform = `translateZ(${translateZ}px)`;
+          item.style.opacity = `${opacity}`;
+        });
+      }
+
+      animId = requestAnimationFrame(renderLoop);
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+    animId = requestAnimationFrame(renderLoop);
+
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      cancelAnimationFrame(animId);
+    };
   }, []);
 
   const features = [
