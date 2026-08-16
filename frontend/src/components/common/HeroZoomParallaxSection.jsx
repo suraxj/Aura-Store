@@ -87,25 +87,26 @@ export default function HeroZoomParallaxSection() {
           />
         </div>
 
-        {/* Foreground Content Card with High Contrast Frosted Dark Backdrop */}
+        {/* Clean Floating Foreground Content over Background Image */}
         <div className="hz-intro-content">
-          <div className="bg-slate-950/85 backdrop-blur-2xl border border-slate-700/80 p-8 sm:p-12 rounded-3xl shadow-2xl max-w-2xl mx-auto flex flex-col items-center">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-400/40 text-indigo-300 text-xs font-bold tracking-wide uppercase mb-4 animate__animated animate__pulse animate__infinite">
+          <div className="flex flex-col items-center text-center max-w-3xl mx-auto px-4 space-y-4">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-slate-950/80 backdrop-blur-md border border-indigo-400/50 text-indigo-300 text-xs font-extrabold tracking-widest uppercase shadow-2xl animate__animated animate__pulse animate__infinite">
               <Sparkles className="w-4 h-4 text-amber-400" />
               <span>Aura SoundX Studio Series</span>
             </div>
 
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-4 drop-shadow-lg">
+            <h2 className="text-4xl sm:text-6xl font-black text-white tracking-tight leading-tight drop-shadow-[0_6px_16px_rgba(0,0,0,0.95)]">
               Pure Acoustic Precision & Immersive Depth
             </h2>
-            <p className="text-sm sm:text-base text-slate-200 leading-relaxed font-medium">
+            
+            <p className="text-base sm:text-xl text-slate-100 leading-relaxed font-semibold max-w-xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.95)]">
               Feel every vibration with custom 45mm beryllium drivers, active spatial cancellation, and zero-latency wireless connectivity.
             </p>
 
-            <div className="mt-6">
+            <div className="pt-2">
               <Link
                 to="/shop"
-                className="px-8 py-4 bg-gradient-to-r from-indigo-500 via-violet-600 to-indigo-600 hover:from-indigo-600 hover:to-violet-700 text-white font-extrabold text-sm rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
+                className="px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-600 hover:from-indigo-600 hover:to-purple-700 text-white font-extrabold text-sm rounded-2xl shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2"
               >
                 <span>Discover Studio Collection</span>
                 <ArrowRight className="w-4 h-4" />
