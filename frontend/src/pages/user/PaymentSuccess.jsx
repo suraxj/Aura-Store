@@ -7,8 +7,8 @@ export default function PaymentSuccess() {
   const order = location.state?.order;
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-6">
-      <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate-bounce">
+    <div className="max-w-3xl mx-auto px-4 py-16 text-center space-y-6 animate__animated animate__backInDown">
+      <div className="w-20 h-20 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto shadow-lg animate__animated animate__tada animate__infinite">
         <CheckCircle className="w-10 h-10" />
       </div>
 

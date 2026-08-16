@@ -85,15 +85,15 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all">
+    <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm transition-all animate__animated animate__fadeInDown">
       {/* Top Banner Bar */}
       <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white text-xs py-2 px-4 text-center tracking-wide font-medium flex justify-between items-center px-4 md:px-8">
         <div className="hidden sm:flex items-center gap-2 text-indigo-300">
-          <Sparkles className="w-3.5 h-3.5" />
+          <Sparkles className="w-3.5 h-3.5 animate__animated animate__pulse animate__infinite" />
           <span>New Summer Collection Live!</span>
         </div>
         <div className="mx-auto sm:mx-0">
-          🔥 Flash Offer: Get 20% OFF with code <span className="font-bold text-amber-300 underline underline-offset-2">AURA20</span>
+          🔥 Flash Offer: Get 20% OFF with code <span className="font-bold text-amber-300 underline underline-offset-2 animate__animated animate__pulse animate__infinite inline-block">AURA20</span>
         </div>
         <div className="hidden md:flex items-center gap-4 text-gray-300 text-xs">
           <Link to="/about" className="hover:text-white transition">About Us</Link>
@@ -101,9 +101,10 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main Navbar */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20 gap-4">
+      {/* Main Frosted Glass Navbar Container */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+        <div className="gn-01-bar">
+          <div className="flex items-center justify-between w-full h-16 gap-4">
           
           {/* Mobile menu trigger */}
           <button
@@ -113,16 +114,16 @@ export default function Navbar() {
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition duration-300">
-              <Sparkles className="w-6 h-6" />
+          {/* Logo (.gn-01-brand) */}
+          <Link to="/" className="gn-01-brand group">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition duration-300">
+              <Sparkles className="w-5 h-5" />
             </div>
             <div className="flex flex-col">
-              <span className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-900 to-indigo-600 bg-clip-text text-transparent">
+              <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-900 to-indigo-600 bg-clip-text text-transparent">
                 AURA
               </span>
-              <span className="text-[10px] font-semibold text-indigo-500 tracking-widest uppercase -mt-1">
+              <span className="text-[9px] font-semibold text-indigo-500 tracking-widest uppercase -mt-1">
                 STORE
               </span>
             </div>
@@ -150,7 +151,7 @@ export default function Navbar() {
 
             {/* Suggestions Dropdown */}
             {showSuggestions && suggestions.length > 0 && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate-fade-in">
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden z-50 animate__animated animate__fadeIn">
                 <div className="p-2 text-[11px] font-semibold text-gray-400 uppercase tracking-wider px-4 py-2 border-b bg-gray-50">
                   Search Suggestions
                 </div>
@@ -183,7 +184,7 @@ export default function Navbar() {
             >
               <Heart className="w-5 h-5 group-hover:scale-110 transition" />
               {wishlist.length > 0 && (
-                <span className="absolute top-1 right-1 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm">
+                <span className="absolute top-1 right-1 bg-rose-500 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm animate__animated animate__bounceIn">
                   {wishlist.length}
                 </span>
               )}
@@ -197,7 +198,7 @@ export default function Navbar() {
             >
               <ShoppingCart className="w-5 h-5 group-hover:scale-110 transition" />
               {totalItemCount > 0 && (
-                <span className="absolute top-1 right-1 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm animate-pulse">
+                <span className="absolute top-1 right-1 bg-indigo-600 text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center shadow-sm animate__animated animate__bounceIn">
                   {totalItemCount}
                 </span>
               )}
@@ -279,16 +280,16 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <div className="flex items-center gap-2">
+              <div className="gn-01-actions">
                 <Link
                   to="/login"
-                  className="px-4 py-2 text-xs font-semibold text-gray-700 hover:text-indigo-600 transition"
+                  className="gn-01-ghost"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="px-4 py-2 text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-700 rounded-full shadow-sm hover:shadow transition"
+                  className="gn-01-cta"
                 >
                   Sign Up
                 </Link>
@@ -321,6 +322,7 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+    </div>
 
       {/* Mobile Sidebar Navigation Drawer */}
       {mobileMenuOpen && (

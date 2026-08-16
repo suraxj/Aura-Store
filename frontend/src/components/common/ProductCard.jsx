@@ -4,6 +4,8 @@ import { Heart, ShoppingBag, Eye, Star, Check } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 
+import LazyImage from './LazyImage';
+
 export default function ProductCard({ product, onQuickView }) {
   const { addToCart } = useCart();
   const { toggleWishlist, isInWishlist } = useWishlist();
@@ -26,14 +28,14 @@ export default function ProductCard({ product, onQuickView }) {
   };
 
   return (
-    <div className="group relative bg-white rounded-3xl border border-gray-100/80 shadow-sm hover:shadow-2xl hover:border-indigo-100 hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col overflow-hidden">
+    <div className="ih-02__card ih-08__card group relative bg-white rounded-3xl border border-gray-100/80 shadow-sm hover:shadow-2xl hover:border-indigo-100 transition-all duration-500 ease-out flex flex-col overflow-hidden animate__animated animate__fadeIn">
       
       {/* Product Image Container */}
-      <div className="relative aspect-square w-full bg-slate-50 overflow-hidden">
+      <div className="ih-08__img-frame relative aspect-square w-full bg-slate-50 overflow-hidden">
         
         {/* Discount Badge */}
         {discountPercent > 0 && (
-          <span className="absolute top-3.5 left-3.5 z-10 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md shadow-rose-500/20 tracking-wider">
+          <span className="absolute top-3.5 left-3.5 z-10 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-[11px] font-extrabold px-2.5 py-1 rounded-full shadow-md shadow-rose-500/20 tracking-wider animate__animated animate__pulse animate__infinite">
             {discountPercent}% OFF
           </span>
         )}
@@ -45,35 +47,42 @@ export default function ProductCard({ product, onQuickView }) {
           </span>
         )}
 
-        {/* Product Image with smooth 700ms zoom */}
+        {/* Product Image with LazyImage optimization */}
         <Link to={`/product/${product.slug}`} className="block w-full h-full">
-          <img
-            src={product.images && product.images[0] ? product.images[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80'}
+          <LazyImage
+            src={product.images && product.images[0] ? product.images[0] : 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=400&q=75'}
             alt={product.name}
-            loading="lazy"
-            className="w-full h-full object-cover object-center transform group-hover:scale-110 transition-transform duration-700 ease-out"
+            width={400}
+            quality={75}
+            className="ih-02__img ih-08__img w-full h-full object-cover object-center"
           />
         </Link>
 
-        {/* Overlay Action Buttons with Staggered Slide-Up */}
-        <div className="absolute inset-0 bg-slate-950/25 backdrop-blur-[2px] opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center gap-3 p-4">
-          <button
-            onClick={() => onQuickView && onQuickView(product)}
-            className="p-3 bg-white/95 text-slate-800 rounded-full shadow-lg hover:bg-indigo-600 hover:text-white transform translate-y-6 group-hover:translate-y-0 transition-all duration-300 delay-75 active:scale-90"
-            title="Quick View"
-          >
-            <Eye className="w-4 h-4" />
-          </button>
-          
-          <button
-            onClick={() => toggleWishlist(product._id)}
-            className={`p-3 rounded-full shadow-lg transform translate-y-6 group-hover:translate-y-0 transition-all duration-300 delay-150 active:scale-90 ${
-              isLiked ? 'bg-rose-500 text-white' : 'bg-white/95 text-slate-800 hover:bg-rose-500 hover:text-white'
-            }`}
-            title="Wishlist"
-          >
-            <Heart className={`w-4 h-4 transition-transform duration-200 ${isLiked ? 'fill-current scale-110' : ''}`} />
-          </button>
+        {/* Overlay Action Buttons with .ih-02__overlay animated slide */}
+        <div className="ih-02__overlay z-20">
+          <div className="ih-02__tag">{product.brand || 'AURA'}</div>
+          <h4 className="ih-02__name">{product.name}</h4>
+          <p className="ih-02__sub">₹{displayPrice.toLocaleString('en-IN')} • ⭐ {product.rating || 4.5}</p>
+
+          <div className="flex items-center gap-3 mt-3 pt-2">
+            <button
+              onClick={() => onQuickView && onQuickView(product)}
+              className="p-2.5 bg-white/95 text-slate-800 rounded-full shadow-lg hover:bg-indigo-600 hover:text-white transition-all active:scale-90"
+              title="Quick View"
+            >
+              <Eye className="w-4 h-4" />
+            </button>
+            
+            <button
+              onClick={() => toggleWishlist(product._id)}
+              className={`p-2.5 rounded-full shadow-lg transition-all active:scale-90 ${
+                isLiked ? 'bg-rose-500 text-white animate__animated animate__heartBeat' : 'bg-white/95 text-slate-800 hover:bg-rose-500 hover:text-white'
+              }`}
+              title="Wishlist"
+            >
+              <Heart className={`w-4 h-4 ${isLiked ? 'fill-current' : ''}`} />
+            </button>
+          </div>
         </div>
       </div>
 
@@ -105,7 +114,7 @@ export default function ProductCard({ product, onQuickView }) {
           <span className="text-slate-400 font-normal">({product.numReviews || 12})</span>
         </div>
 
-        {/* Pricing & Add to Cart Footer */}
+        {/* Pricing & Add to Cart Footer with ih-08__btn */}
         <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
           <div>
             <div className="flex items-baseline gap-2">
@@ -123,9 +132,9 @@ export default function ProductCard({ product, onQuickView }) {
           <button
             onClick={handleAddToCart}
             disabled={product.stock <= 0}
-            className={`px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all duration-300 active:scale-95 shadow-sm ${
+            className={`ih-08__btn px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all duration-300 active:scale-95 shadow-sm ${
               added
-                ? 'bg-emerald-600 text-white shadow-emerald-500/20'
+                ? 'bg-emerald-600 text-white shadow-emerald-500/20 animate__animated animate__rubberBand'
                 : product.stock > 0
                 ? 'bg-indigo-50 text-indigo-600 hover:bg-indigo-600 hover:text-white hover:shadow-lg hover:shadow-indigo-500/25'
                 : 'bg-slate-100 text-slate-400 cursor-not-allowed'
@@ -133,7 +142,7 @@ export default function ProductCard({ product, onQuickView }) {
           >
             {added ? (
               <>
-                <Check className="w-3.5 h-3.5 animate-badge-pop" />
+                <Check className="w-3.5 h-3.5" />
                 <span>Added!</span>
               </>
             ) : (

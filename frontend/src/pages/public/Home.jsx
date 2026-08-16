@@ -3,6 +3,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import API from '../../services/api';
 import ProductCard from '../../components/common/ProductCard';
 import QuickViewModal from '../../components/common/QuickViewModal';
+import LazyImage from '../../components/common/LazyImage';
+import ZoomGridSection from '../../components/common/ZoomGridSection';
+import HeroZoomParallaxSection from '../../components/common/HeroZoomParallaxSection';
+
+
+
 import {
   Sparkles,
   ArrowRight,
@@ -57,67 +63,121 @@ export default function Home() {
   return (
     <div className="space-y-16 pb-16">
       
-      {/* 1. HERO BANNER SECTION WITH ANIMATED BACKDROP & FLOATING CARD */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 mt-4 p-8 sm:p-12 lg:p-16 shadow-2xl border border-slate-800 animate-fade-in">
-        {/* Animated Glow Backplate Orbs */}
-        <div className="absolute top-0 right-0 -mt-16 -mr-16 w-96 h-96 bg-indigo-500/25 rounded-full blur-3xl pointer-events-none animate-float"></div>
-        <div className="absolute bottom-0 left-0 -mb-16 -ml-16 w-96 h-96 bg-violet-500/25 rounded-full blur-3xl pointer-events-none animate-float" style={{ animationDelay: '2s' }}></div>
+      {/* 1. COMPLETELY REDESIGNED LUXURY HERO SECTION */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-indigo-950 to-slate-900 text-white rounded-3xl mx-4 sm:mx-6 lg:mx-8 mt-4 p-8 sm:p-12 lg:p-16 shadow-2xl border border-indigo-900/40 animate__animated animate__fadeIn">
+        
+        {/* Glowing Background Ambient Radial Orbs */}
+        <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-indigo-600/25 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-[400px] h-[400px] bg-purple-600/20 rounded-full blur-[130px] pointer-events-none" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff08_1px,transparent_1px),linear-gradient(to_bottom,#ffffff08_1px,transparent_1px)] bg-[size:3.5rem_3.5rem] pointer-events-none" />
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left Content */}
-          <div className="lg:col-span-7 space-y-6">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/30 text-indigo-300 text-xs font-semibold tracking-wide animate-pulse-glow">
-              <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-spin" style={{ animationDuration: '6s' }} />
-              <span>Next-Gen Audio & Smart Tech 2026 Collection</span>
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          
+          {/* Left Hero Content */}
+          <div className="lg:col-span-7 space-y-6 animate__animated animate__fadeInLeft">
+            
+            {/* Pill Badge */}
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/20 border border-indigo-400/40 text-indigo-300 text-xs font-extrabold tracking-widest uppercase shadow-md animate__animated animate__pulse animate__infinite">
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Aura Store 2026 • Luxury & Tech Showcase</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.1]">
-              Elevate Your Everyday <span className="bg-gradient-to-r from-indigo-400 via-violet-300 to-rose-300 bg-clip-text text-transparent animate-gradient">Aura.</span>
+            {/* Headline */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-[1.08] text-white">
+              Redefining Modern Living With{' '}
+              <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-400 bg-clip-text text-transparent">
+                Acoustic Audio & Urban Craft.
+              </span>
             </h1>
 
+            {/* Subtext */}
             <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal max-w-xl">
-              Discover precision-engineered wireless headphones, titanium smartwatches, tailored urban apparel, and smart home aesthetics.
+              Experience precision-engineered ANC headphones, titanium smartwatches, tailored urban apparel, and luxury lifestyle aesthetics delivered express to your doorstep.
             </p>
 
+            {/* CTA Buttons */}
             <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link
                 to="/shop"
-                className="px-7 py-3.5 bg-gradient-to-r from-indigo-500 via-violet-600 to-indigo-600 hover:from-indigo-600 hover:to-violet-700 text-white font-bold text-sm rounded-2xl shadow-glow hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2 group"
+                className="px-8 py-4 bg-gradient-to-r from-indigo-500 via-purple-600 to-indigo-600 hover:from-indigo-600 hover:to-purple-700 text-white font-extrabold text-sm rounded-2xl shadow-xl hover:shadow-indigo-500/30 hover:scale-105 active:scale-95 transition-all duration-300 flex items-center gap-2.5 group animate__animated animate__pulse animate__infinite"
               >
                 <span>Explore Collection</span>
-                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 transform group-hover:translate-x-1.5 transition-transform" />
               </Link>
-              
+
               <Link
                 to="/shop?category=electronics"
-                className="px-6 py-3.5 bg-slate-800/80 hover:bg-slate-800 text-slate-200 border border-slate-700 font-semibold text-sm rounded-2xl transition-all duration-300 hover:border-slate-500 active:scale-95"
+                className="px-7 py-4 bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700/80 font-bold text-sm rounded-2xl transition-all duration-300 hover:border-indigo-500/50 hover:text-white active:scale-95 backdrop-blur-md shadow-md"
               >
-                View Electronics
+                View Flagship Tech
               </Link>
             </div>
+
+            {/* Social Proof Bar */}
+            <div className="pt-4 flex items-center gap-4 border-t border-slate-800/80">
+              <div className="flex -space-x-2">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=100&q=80" alt="User" className="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" />
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80" alt="User" className="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" />
+                <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80" alt="User" className="w-8 h-8 rounded-full border-2 border-slate-900 object-cover" />
+              </div>
+              <div>
+                <div className="flex items-center gap-1 text-amber-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                  ))}
+                  <span className="text-xs font-bold text-white ml-1">4.9 / 5.0</span>
+                </div>
+                <p className="text-[11px] text-slate-400">Trusted by over <strong className="text-indigo-300">50,000+ buyers</strong> worldwide</p>
+              </div>
+            </div>
+
           </div>
 
-          {/* Right Floating Visual Card */}
-          <div className="lg:col-span-5 hidden lg:flex justify-center">
-            <div className="relative group perspective-1000">
-              <div className="w-72 h-80 rounded-3xl bg-gradient-to-br from-indigo-500/20 to-violet-500/20 border border-white/10 backdrop-blur-xl p-4 shadow-2xl animate-float transform group-hover:rotate-1 group-hover:scale-105 transition-all duration-500">
-                <img
+          {/* Right Dual 3D Hero Cards */}
+          <div className="lg:col-span-5 hidden lg:flex justify-center relative animate__animated animate__zoomIn">
+            
+            {/* Primary Main Card */}
+            <div className="w-80 bg-slate-900/90 border border-slate-700/80 rounded-3xl p-5 backdrop-blur-2xl shadow-2xl hover:border-indigo-500/60 transition-all duration-500 transform hover:-translate-y-2">
+              <div className="relative rounded-2xl overflow-hidden mb-4 bg-slate-950">
+                <LazyImage
                   src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"
                   alt="Aura SoundX Headphones"
-                  className="w-full h-52 object-cover rounded-2xl shadow-lg"
+                  className="w-full h-56 object-cover transform hover:scale-105 transition-transform duration-700"
                 />
-                <div className="mt-4 flex items-center justify-between">
-                  <div>
-                    <h4 className="text-xs font-bold text-white">Aura SoundX Pro</h4>
-                    <p className="text-[10px] text-indigo-300">ANC Wireless Audio</p>
-                  </div>
-                  <span className="px-3 py-1 bg-amber-400 text-slate-950 font-extrabold text-xs rounded-xl shadow-md">
-                    ₹12,999
-                  </span>
+                <span className="absolute top-3 left-3 bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-black text-[10px] uppercase tracking-widest px-3 py-1 rounded-full shadow-lg">
+                  BESTSELLER
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div>
+                  <h4 className="text-sm font-extrabold text-white">Aura SoundX Pro</h4>
+                  <p className="text-xs text-indigo-300 font-medium">ANC Acoustic Headphones</p>
+                </div>
+                <div className="text-right">
+                  <span className="text-base font-black text-emerald-400">₹12,999</span>
+                  <p className="text-[10px] text-slate-400 line-through">₹16,999</p>
                 </div>
               </div>
             </div>
+
+            {/* Overlapping Secondary Floating Card */}
+            <div className="absolute -bottom-6 -left-8 w-64 bg-slate-950/95 border border-purple-500/40 rounded-2xl p-3.5 backdrop-blur-xl shadow-2xl hidden xl:flex items-center gap-3 animate__animated animate__fadeInUp">
+              <div className="w-14 h-14 rounded-xl overflow-hidden bg-slate-900 flex-shrink-0">
+                <LazyImage
+                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=300&q=75"
+                  alt="Chronos Smartwatch"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <div className="flex-1 min-w-0">
+                <span className="text-[9px] font-extrabold text-purple-400 uppercase tracking-widest">NEW RELEASE</span>
+                <h5 className="text-xs font-bold text-white truncate">Chronos Titanium</h5>
+                <p className="text-[10px] text-emerald-400 font-extrabold">₹18,499</p>
+              </div>
+            </div>
+
           </div>
+
         </div>
       </section>
 
@@ -136,7 +196,7 @@ export default function Home() {
 
           <div className="flex items-center gap-3 p-2 group">
             <div className="p-3 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300">
-              <Lock className="w-5 h-5" />
+              <ShieldCheck className="w-5 h-5" />
             </div>
             <div>
               <h4 className="text-xs font-bold text-slate-900">Secure Payments</h4>
@@ -194,10 +254,11 @@ export default function Home() {
                 className="group relative rounded-3xl overflow-hidden aspect-[4/3] bg-slate-100 border border-gray-100 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                <img
+                <LazyImage
                   src={cat.image}
                   alt={cat.name}
-                  loading="lazy"
+                  width={400}
+                  quality={75}
                   className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700 ease-out"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/20 to-transparent flex flex-col justify-end p-5 text-white">
@@ -214,11 +275,11 @@ export default function Home() {
 
       {/* 3. FLASH SALE / DEALS SECTION */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="bg-gradient-to-r from-amber-500/10 via-rose-500/10 to-indigo-500/10 rounded-3xl p-6 sm:p-8 border border-amber-500/20 shadow-sm">
+        <div className="bg-gradient-to-r from-amber-500/10 via-rose-500/10 to-indigo-500/10 rounded-3xl p-6 sm:p-8 border border-amber-500/20 shadow-sm animate__animated animate__fadeInUp">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 text-white rounded-2xl shadow-lg shadow-amber-500/25">
-                <Zap className="w-6 h-6 animate-pulse" />
+              <div className="p-3 bg-gradient-to-br from-amber-500 to-orange-500 text-white rounded-2xl shadow-lg shadow-amber-500/25 animate__animated animate__bounce animate__infinite">
+                <Zap className="w-6 h-6" />
               </div>
               <div>
                 <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
@@ -228,8 +289,8 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-xs font-bold text-rose-600 border border-rose-100 shadow-sm animate-pulse-glow">
-              <Clock className="w-4 h-4 animate-spin" style={{ animationDuration: '4s' }} />
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-xs font-bold text-rose-600 border border-rose-100 shadow-sm animate__animated animate__pulse animate__infinite">
+              <Clock className="w-4 h-4" />
               <span>Ends in 05h : 22m : 40s</span>
             </div>
           </div>
@@ -238,7 +299,7 @@ export default function Home() {
           {loading ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-80 rounded-3xl animate-shimmer"></div>
+                <div key={i} className="h-80 rounded-3xl bg-slate-100 animate-pulse"></div>
               ))}
             </div>
           ) : (
@@ -259,7 +320,7 @@ export default function Home() {
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-indigo-600 text-white rounded-2xl shadow-md shadow-indigo-600/20">
+            <div className="p-2.5 bg-indigo-600 text-white rounded-2xl shadow-md shadow-indigo-600/20 animate__animated animate__rubberBand">
               <Award className="w-5 h-5" />
             </div>
             <div>
@@ -272,7 +333,7 @@ export default function Home() {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="h-80 rounded-3xl animate-shimmer"></div>
+              <div key={i} className="h-80 rounded-3xl bg-slate-100 animate-pulse"></div>
             ))}
           </div>
         ) : (
@@ -288,11 +349,14 @@ export default function Home() {
         )}
       </section>
 
+      {/* 3D ZOOM PERSPECTIVE GRID SHOWCASE */}
+      <ZoomGridSection />
+
       {/* 5. PROMOTIONAL BANNER WITH ROTATING ARTWORK */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl bg-slate-950 text-white overflow-hidden p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-slate-800 shadow-2xl">
+        <div className="relative rounded-3xl bg-slate-950 text-white overflow-hidden p-8 sm:p-12 flex flex-col md:flex-row items-center justify-between gap-8 border border-slate-800 shadow-2xl animate__animated animate__fadeInUp">
           <div className="space-y-4 max-w-lg z-10">
-            <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20 inline-block animate-pulse-glow">
+            <span className="text-xs font-extrabold uppercase tracking-widest text-indigo-400 bg-indigo-500/10 px-3.5 py-1.5 rounded-full border border-indigo-500/20 inline-block animate__animated animate__tada animate__infinite">
               Limited Coupon Discount
             </span>
             <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight leading-tight">
@@ -303,13 +367,13 @@ export default function Home() {
             </p>
             <button
               onClick={() => navigate('/shop')}
-              className="px-7 py-3.5 bg-white text-slate-950 font-bold text-xs rounded-2xl hover:bg-indigo-50 active:scale-95 transition-all duration-300 shadow-xl"
+              className="px-7 py-3.5 bg-white text-slate-950 font-bold text-xs rounded-2xl hover:bg-indigo-50 active:scale-95 transition-all duration-300 shadow-xl animate__animated animate__pulse animate__infinite"
             >
               Shop & Apply Coupon
             </button>
           </div>
 
-          <div className="w-full md:w-1/2 flex justify-center z-10">
+          <div className="w-full md:w-1/2 flex justify-center z-10 animate__animated animate__zoomIn">
             <img
               src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&q=80"
               alt="Promo"
@@ -351,6 +415,9 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* GSAP-STYLE PARALLAX ZOOM HERO BANNER */}
+      <HeroZoomParallaxSection />
 
       {/* 7. CUSTOMER TESTIMONIALS WITH HOVER ELEVATION */}
       <section className="bg-slate-100/70 py-16 border-y border-slate-200/60">

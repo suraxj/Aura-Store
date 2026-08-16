@@ -35,6 +35,8 @@ import ManageUsers from './pages/admin/ManageUsers';
 import ManageCategories from './pages/admin/ManageCategories';
 import ManageCoupons from './pages/admin/ManageCoupons';
 
+import CircularMenu from './components/common/CircularMenu';
+
 export default function App() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50 text-slate-800 antialiased">
@@ -81,6 +83,7 @@ export default function App() {
       </main>
 
       <Footer />
+      <CircularMenu />
     </div>
   );
 }

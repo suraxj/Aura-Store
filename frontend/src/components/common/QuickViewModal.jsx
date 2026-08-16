@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, Star, ShoppingCart, Heart, Check, ShieldCheck } from 'lucide-react';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
+import LazyImage from './LazyImage';
 
 export default function QuickViewModal({ product, onClose }) {
   const { addToCart } = useCart();
@@ -16,8 +17,8 @@ export default function QuickViewModal({ product, onClose }) {
   const displayPrice = product.discountPrice > 0 ? product.discountPrice : product.price;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate-fade-in">
-      <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col md:flex-row max-h-[90vh] animate-scale-up">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/60 backdrop-blur-md animate__animated animate__fadeIn">
+      <div className="relative w-full max-w-4xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 flex flex-col md:flex-row max-h-[90vh] animate__animated animate__zoomIn">
         
         {/* Close Button */}
         <button
@@ -30,9 +31,12 @@ export default function QuickViewModal({ product, onClose }) {
         {/* Gallery Preview Left */}
         <div className="w-full md:w-1/2 bg-gray-50 p-6 flex flex-col justify-between">
           <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-white border border-gray-100 mb-4">
-            <img
+            <LazyImage
               src={selectedImage || product.images[0]}
               alt={product.name}
+              width={600}
+              quality={80}
+              priority={true}
               className="w-full h-full object-cover"
             />
           </div>
@@ -48,7 +52,7 @@ export default function QuickViewModal({ product, onClose }) {
                     selectedImage === img ? 'border-indigo-600 scale-95' : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <LazyImage src={img} alt="" width={100} quality={70} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>

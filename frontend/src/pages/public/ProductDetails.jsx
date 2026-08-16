@@ -5,6 +5,7 @@ import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { useAuth } from '../../context/AuthContext';
 import ProductCard from '../../components/common/ProductCard';
+import LazyImage from '../../components/common/LazyImage';
 import toast from 'react-hot-toast';
 import {
   Star,
@@ -140,9 +141,12 @@ export default function ProductDetails() {
         {/* Left: Gallery & Zoom Preview */}
         <div className="space-y-4">
           <div className="relative aspect-square w-full rounded-2xl overflow-hidden bg-gray-50 border border-gray-100 group">
-            <img
+            <LazyImage
               src={selectedImage || product.images[0]}
               alt={product.name}
+              width={800}
+              quality={85}
+              priority={true}
               className="w-full h-full object-cover transition duration-300 group-hover:scale-105"
             />
             {product.discountPercentage > 0 && (
@@ -163,7 +167,7 @@ export default function ProductDetails() {
                     selectedImage === img ? 'border-indigo-600 scale-95' : 'border-transparent opacity-70 hover:opacity-100'
                   }`}
                 >
-                  <img src={img} alt="" className="w-full h-full object-cover" />
+                  <LazyImage src={img} alt="" width={150} quality={75} className="w-full h-full object-cover" />
                 </button>
               ))}
             </div>
