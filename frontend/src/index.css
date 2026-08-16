@@ -759,7 +759,7 @@
 
 .stuck-grid-wrapper {
   position: relative;
-  height: 100vh;
+  height: 150vh;
   background: radial-gradient(ellipse at 50% 50%, #1e1b4b 0%, #090d16 50%, #030712 100%);
   color: #f9fafb;
 }
@@ -857,7 +857,7 @@
 .hz-wrapper {
   position: relative;
   width: 100%;
-  height: 100vh;
+  height: 150vh;
   background: #020617;
   overflow: hidden;
 }

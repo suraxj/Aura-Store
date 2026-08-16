@@ -7,29 +7,52 @@ export default function ZoomGridSection() {
   const containerRef = useRef(null);
 
   useEffect(() => {
-    const supportsScrollTimeline = CSS.supports('animation-timeline', 'scroll()');
-    if (supportsScrollTimeline) return;
+    let ticking = false;
 
     const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          updateScroll();
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    const updateScroll = () => {
       const container = containerRef.current;
       if (!container) return;
 
       const rect = container.getBoundingClientRect();
       const windowHeight = window.innerHeight;
-      const progress = Math.min(Math.max(0, (windowHeight - rect.top) / (rect.height + windowHeight)), 1);
+      const totalScrollable = rect.height - windowHeight;
+
+      if (totalScrollable <= 0) return;
+
+      // Scrolled progress from 0 (entering viewport) to 1 (leaving sticky region)
+      const scrolled = Math.max(0, -rect.top);
+      const progress = Math.min(1, Math.max(0, scrolled / totalScrollable));
 
       const items = container.querySelectorAll('.grid-item:not(.special)');
       items.forEach((item, idx) => {
-        const factor = (idx % 4 + 1) * 0.12;
-        const translateZ = (progress - 0.5) * 800 * factor;
-        const opacity = Math.min(1, Math.sin(progress * Math.PI) * 2.2);
+        const factor = (idx % 4 + 1) * 0.15;
+        const translateZ = (progress - 0.5) * 1100 * factor;
+        
+        // Cards remain 100% visible throughout progress, fading out gently only above 0.88
+        let opacity = 1;
+        if (progress > 0.88) {
+          opacity = (1 - progress) / 0.12;
+        } else if (progress < 0.05) {
+          opacity = progress / 0.05;
+        }
+        
         item.style.transform = `translateZ(${translateZ}px)`;
         item.style.opacity = `${opacity}`;
       });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
+    updateScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
