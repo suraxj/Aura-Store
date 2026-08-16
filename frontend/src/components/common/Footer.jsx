@@ -12,7 +12,8 @@ import {
   Twitter,
   Youtube,
   Github,
-  CheckCircle2
+  CheckCircle2,
+  Gift
 } from 'lucide-react';
 
 export default function Footer() {
@@ -108,8 +109,9 @@ export default function Footer() {
             
             {/* Interactive Newsletter Subscription Form */}
             <div className="p-5 rounded-2xl bg-slate-900/80 border border-slate-800 space-y-3">
-              <h5 className="text-xs font-extrabold text-white uppercase tracking-wider">
-                🎁 Subscribe to Secret VIP Offers
+              <h5 className="text-xs font-extrabold text-white uppercase tracking-wider flex items-center gap-1.5">
+                <Gift className="w-4 h-4 text-purple-400" />
+                <span>Subscribe to Secret VIP Offers</span>
               </h5>
               <p className="text-[11px] text-slate-400">Get early drop notifications and an instant ₹500 discount coupon.</p>
 

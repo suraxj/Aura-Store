@@ -4,6 +4,7 @@ import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import API from '../../services/api';
+import AuraLogo from './AuraLogo';
 import {
   Search,
   ShoppingCart,
@@ -17,7 +18,9 @@ import {
   LayoutDashboard,
   MapPin,
   Sparkles,
-  SlidersHorizontal
+  SlidersHorizontal,
+  Flame,
+  Rocket
 } from 'lucide-react';
 
 export default function Navbar() {
@@ -92,8 +95,9 @@ export default function Navbar() {
           <Sparkles className="w-3.5 h-3.5 animate__animated animate__pulse animate__infinite" />
           <span>New Summer Collection Live!</span>
         </div>
-        <div className="mx-auto sm:mx-0">
-          🔥 Flash Offer: Get 20% OFF with code <span className="font-bold text-amber-300 underline underline-offset-2 animate__animated animate__pulse animate__infinite inline-block">AURA20</span>
+        <div className="mx-auto sm:mx-0 flex items-center gap-1.5">
+          <Flame className="w-3.5 h-3.5 text-amber-400 animate__animated animate__pulse animate__infinite" />
+          <span>Flash Offer: Get 20% OFF with code <span className="font-bold text-amber-300 underline underline-offset-2 animate__animated animate__pulse animate__infinite inline-block">AURA20</span></span>
         </div>
         <div className="hidden md:flex items-center gap-4 text-gray-300 text-xs">
           <Link to="/about" className="hover:text-white transition">About Us</Link>
@@ -114,20 +118,8 @@ export default function Navbar() {
             {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
 
-          {/* Logo (.gn-01-brand) */}
-          <Link to="/" className="gn-01-brand group">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center text-white shadow-glow group-hover:scale-105 transition duration-300">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-slate-900 via-indigo-900 to-indigo-600 bg-clip-text text-transparent">
-                AURA
-              </span>
-              <span className="text-[9px] font-semibold text-indigo-500 tracking-widest uppercase -mt-1">
-                STORE
-              </span>
-            </div>
-          </Link>
+          {/* Logo */}
+          <AuraLogo />
 
           {/* Search Bar with Autocomplete */}
           <div className="hidden md:flex flex-1 max-w-xl relative" ref={searchRef}>
@@ -317,8 +309,9 @@ export default function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4 text-gray-500 font-normal">
-            <span>🚀 Free Express Shipping On Orders &gt; ₹1000</span>
+          <div className="flex items-center gap-1.5 text-gray-500 font-normal">
+            <Rocket className="w-3.5 h-3.5 text-indigo-500" />
+            <span>Free Express Shipping On Orders &gt; ₹1000</span>
           </div>
         </div>
       </div>
