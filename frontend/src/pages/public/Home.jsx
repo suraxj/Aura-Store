@@ -7,10 +7,8 @@ import LazyImage from '../../components/common/LazyImage';
 import ZoomGridSection from '../../components/common/ZoomGridSection';
 import HeroZoomParallaxSection from '../../components/common/HeroZoomParallaxSection';
 import SeoSection from '../../components/common/SeoSection';
+import CountdownTimer from '../../components/common/CountdownTimer';
 import TextMaskParallaxSection from '../../components/common/TextMaskParallaxSection';
-
-
-
 
 import {
   Sparkles,
@@ -292,10 +290,7 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full text-xs font-bold text-rose-600 border border-rose-100 shadow-sm animate__animated animate__pulse animate__infinite">
-              <Clock className="w-4 h-4" />
-              <span>Ends in 05h : 22m : 40s</span>
-            </div>
+            <CountdownTimer initialHours={5} initialMinutes={22} initialSeconds={40} />
           </div>
 
           {/* Product Cards Grid */}
