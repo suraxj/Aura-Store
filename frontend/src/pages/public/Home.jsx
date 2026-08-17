@@ -53,7 +53,11 @@ export default function Home() {
       setCategories(catRes.data || []);
       setFeaturedProducts(featRes.data || []);
       setBestSellers(bestRes.data || []);
-      setFlashSaleProducts(allRes.data.products || []);
+
+      // Dynamically filter discounted products for Flash Sale
+      const productsList = allRes.data.products || [];
+      const discounted = productsList.filter(p => (p.discountPrice > 0 && p.discountPrice < p.price) || p.discountPercentage > 0);
+      setFlashSaleProducts(discounted.length > 0 ? discounted : productsList);
     } catch (error) {
       console.error('Error loading homepage data', error);
     } finally {

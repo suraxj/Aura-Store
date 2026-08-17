@@ -1,53 +1,64 @@
 import React, { useState, useEffect } from 'react';
 import { Clock } from 'lucide-react';
 
-export default function CountdownTimer({ initialHours = 5, initialMinutes = 22, initialSeconds = 40 }) {
-  const getInitialTime = () => {
-    const totalSeconds = initialHours * 3600 + initialMinutes * 60 + initialSeconds;
-    const storedTarget = localStorage.getItem('aura_flash_sale_target');
-    const now = Date.now();
-
-    if (storedTarget) {
-      const targetTime = parseInt(storedTarget, 10);
-      if (targetTime > now) {
-        return Math.floor((targetTime - now) / 1000);
-      }
+/**
+ * Dynamic CountdownTimer component
+ * @param {string|Date} targetDate - Specific target date/time (e.g., '2026-12-31T23:59:59')
+ * @param {number} initialHours - Optional duration hours for rolling timer
+ * @param {number} initialMinutes - Optional duration minutes for rolling timer
+ * @param {number} initialSeconds - Optional duration seconds for rolling timer
+ */
+export default function CountdownTimer({ targetDate, initialHours, initialMinutes, initialSeconds }) {
+  const getTargetTimestamp = () => {
+    if (targetDate) {
+      return new Date(targetDate).getTime();
     }
 
-    // Set new target end time
-    const newTarget = now + totalSeconds * 1000;
-    localStorage.setItem('aura_flash_sale_target', newTarget.toString());
-    return totalSeconds;
+    if (initialHours !== undefined || initialMinutes !== undefined || initialSeconds !== undefined) {
+      const storedTarget = localStorage.getItem('aura_flash_sale_target');
+      const now = Date.now();
+
+      if (storedTarget) {
+        const parsed = parseInt(storedTarget, 10);
+        if (!isNaN(parsed) && parsed > now) {
+          return parsed;
+        }
+      }
+
+      const durationMs = ((initialHours || 0) * 3600 + (initialMinutes || 0) * 60 + (initialSeconds || 0)) * 1000;
+      const newTarget = now + (durationMs > 0 ? durationMs : 5 * 3600 * 1000);
+      localStorage.setItem('aura_flash_sale_target', newTarget.toString());
+      return newTarget;
+    }
+
+    // Default dynamic behavior: Count down to Midnight tonight
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(23, 59, 59, 999);
+    return midnight.getTime();
   };
 
-  const [timeLeft, setTimeLeft] = useState(getInitialTime);
+  const calculateSecondsLeft = () => {
+    const target = getTargetTimestamp();
+    const diff = target - Date.now();
+    return Math.max(0, Math.floor(diff / 1000));
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateSecondsLeft);
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const storedTarget = localStorage.getItem('aura_flash_sale_target');
-      const now = Date.now();
-      
-      if (storedTarget) {
-        const targetTime = parseInt(storedTarget, 10);
-        const diff = Math.floor((targetTime - now) / 1000);
-        
-        if (diff > 0) {
-          setTimeLeft(diff);
-        } else {
-          // Reset timer cycle when expired
-          const newTarget = now + (initialHours * 3600 + initialMinutes * 60 + initialSeconds) * 1000;
-          localStorage.setItem('aura_flash_sale_target', newTarget.toString());
-          setTimeLeft(initialHours * 3600 + initialMinutes * 60 + initialSeconds);
-        }
-      } else {
-        const newTarget = now + (initialHours * 3600 + initialMinutes * 60 + initialSeconds) * 1000;
-        localStorage.setItem('aura_flash_sale_target', newTarget.toString());
-        setTimeLeft(initialHours * 3600 + initialMinutes * 60 + initialSeconds);
+      const remaining = calculateSecondsLeft();
+      setTimeLeft(remaining);
+
+      // Reset rolling timer if expired
+      if (remaining <= 0 && !targetDate) {
+        localStorage.removeItem('aura_flash_sale_target');
       }
     }, 1000);
 
     return () => clearInterval(timer);
-  }, [initialHours, initialMinutes, initialSeconds]);
+  }, [targetDate, initialHours, initialMinutes, initialSeconds]);
 
   const hours = String(Math.floor(timeLeft / 3600)).padStart(2, '0');
   const minutes = String(Math.floor((timeLeft % 3600) / 60)).padStart(2, '0');
